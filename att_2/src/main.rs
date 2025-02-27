@@ -5,13 +5,12 @@ use std::io::prelude::*;
 
 struct Person {
     name: String,
-    age: u32,
+    sid: u32,
 }
 
 struct Config {
-    username: String,
-    api_key: String,
-    port: u16,
+   name: String,
+    sid: u32,
 }
 
 
@@ -24,13 +23,13 @@ fn reading_from_console() {
     let name = buffer.trim().to_string();
     buffer.clear();
 
-    print!("How old are you? ");
+    print!("What's your SID? ");
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut buffer).unwrap();
-    let age = buffer.trim().parse().unwrap();
+    let sid = buffer.trim().parse().unwrap();
 
-    let person = Person { name, age };
-    println!("Hi {}, you are {} years old!", person.name, person.age);
+    let person = Person { name, sid };
+    println!("Hi {}, your sid is {} ", person.name, person.sid);
 }
 
 impl Config {
@@ -40,19 +39,19 @@ impl Config {
         file.read_to_string(&mut contents).unwrap();
 
         let mut lines = contents.lines();
-        let username = lines.next().unwrap().to_string();
-        let api_key = lines.next().unwrap().to_string();
-        let port = lines.next().unwrap().parse().unwrap();
+        let name = lines.next().unwrap().to_string();
+        // let api_key = lines.next().unwrap().to_string();
+        let sid = lines.next().unwrap().parse().unwrap();
 
-        Config { username, api_key, port }
+        Config { name, sid }
     }
 }
 
 fn reading_from_file() {
     let config = Config::from_file("config.txt");
-    println!("username: {}", config.username);
-    println!("api key: {}", config.api_key);
-    println!("port: {}", config.port);
+    println!("Name: {}", config.name);
+    // println!("api key: {}", config.api_key);
+    println!("SID: {}", config.sid);
 }
 
 
